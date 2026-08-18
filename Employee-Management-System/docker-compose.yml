@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: employee_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  streamlit:
+    build: .
+    container_name: employee-app
+    depends_on:
+      - postgres
+    ports:
+      - "8501:8501"
+
+volumes:
+  postgres_data:
